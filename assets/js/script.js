@@ -6,10 +6,10 @@ var cities = [];
 
 function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
 
-    console.log( lat, lon, nameCity, thisState, thisCountry )
+  console.log(lat, lon, nameCity, thisState, thisCountry)
 
-    var secondUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
-    fetch(secondUrl)
+  var secondUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&units=imperial";
+  fetch(secondUrl)
     .then(function (response) {
 
       // console.log(response);
@@ -23,9 +23,9 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
 
       const cityEl = document.getElementById("current-weather")
       cityEl.innerHTML = ""
-      
+
       const titleCityItem = document.createElement("h4")
-      titleCityItem.setAttribute("class" , "is-size-4")
+      titleCityItem.setAttribute("class", "is-size-4")
       const tempItem = document.createElement("p")
       const windItem = document.createElement("p")
       const iconItem = document.createElement("img")
@@ -45,14 +45,14 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       cityEl.append(feelsLike)
 
       var cardsEl = document.getElementById("weather-cards")
-      cardsEl.setAttribute( "class", "is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between mt-6")
+      cardsEl.setAttribute("class", "is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between mt-6")
       cardsEl.innerHTML = ""
 
 
       for (var i = 0; i < 7; i++) {
 
         var cardEl = document.createElement("div")
-        cardEl.setAttribute("class", "card p-3 mt-2")
+        cardEl.setAttribute("class", "card p-4 mt-2")
         var cardTitleEl = document.createElement("p")
         var cardPtag = document.createElement("p")
         var cardPtag2 = document.createElement("p")
@@ -88,47 +88,91 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
 
 function weatherApi() {
 
-    var cityName = inputEl.value
+  var cityName = inputEl.value
 
-    var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
+  var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
 
-    fetch(requestUrl)
-        .then(function (response) {
-            return response.json();
-        }).then(function (data) {
+  fetch(requestUrl)
+    .then(function (response) {
+      return response.json();
+    }).then(function (data) {
 
-            console.log(data)
+      console.log(data)
+      var itExists = isValueInLocalStorage(data[0].name)
 
-            cities.push( data[0].name )
-            var cityArray = JSON.stringify(cities)
-            localStorage.setItem( "cities" , cityArray)
+      if (!itExists) {
+        cities.push(data[0].name)
+        var cityArray = JSON.stringify(cities)
+        localStorage.setItem("cities", cityArray)
 
-            var buttonUlEL = document.querySelector(".button-ul")
-            var liEntry = document.createElement("li")
-            var button = document.createElement("button")
+        var buttonUlEL = document.querySelector(".button-ul")
+        var liEntry = document.createElement("li")
+        var button = document.createElement("button")
 
-            button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
-            button.setAttribute( "id" , data[0].name )
-            button.setAttribute( "onclick", "clickEd(this.id)" )
-            button.textContent = data[0].name 
-      
-            buttonUlEL.append(liEntry)
-            liEntry.append(button)
+        button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
+        button.setAttribute("id", data[0].name)
+        button.setAttribute("onclick", "clickEd(this.id)")
+        button.textContent = data[0].name
 
-            var thisCountry = data[0].country
-            var thisState = data[0].state
-            var nameCity = data[0].name
-            var lat = data[0].lat
-            var lon = data[0].lon
+        buttonUlEL.append(liEntry)
+        liEntry.append(button)
 
-            console.log(cities)
-      
-            displayWeather(lat, lon, nameCity, thisState, thisCountry)
+      }
 
-        })
+      var thisCountry = data[0].country
+      var thisState = data[0].state
+      var nameCity = data[0].name
+      var lat = data[0].lat
+      var lon = data[0].lon
+
+      console.log(cities)
+
+      displayWeather(lat, lon, nameCity, thisState, thisCountry)
+
+    })
 
 
 
 }
 
-$("#search-button").on("click", weatherApi )
+$("#search-button").on("click", weatherApi)
+
+function buttonCreate() {
+
+  var cityArray = JSON.parse(localStorage.getItem("cities"))
+
+  var buttonUlEL = document.querySelector(".button-ul")
+
+  console.log(cityArray)
+
+  for (var i = 0; i < cityArray.length; i++) {
+
+    var liEntry = document.createElement("li")
+    var button = document.createElement("button")
+
+    button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
+    button.setAttribute("id", cityArray[i])
+    button.setAttribute("onclick", "weatherApi(this.id)")
+    button.textContent = cityArray[i]
+
+    buttonUlEL.append(liEntry)
+    liEntry.append(button)
+
+  }
+}
+
+buttonCreate()
+
+function isValueInLocalStorage(value) {
+
+  var cityArray = JSON.parse(localStorage.getItem("cities"))
+
+  for (let i = 0; i < cityArray.length; i++) {
+
+    const storedValue = cityArray[i];
+    if (storedValue.toLowerCase() === value.toLowerCase()) {
+      return true;
+    }
+  }
+  return false;
+}
