@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <title>Weather App</title>
 </head>
+
 <body>
-<header class="hero is-info">The Weather App</header>
-
-
+    <header class="hero is-info is-size-1 has-text-centered mb-1">The Weather App</header>
+    <section class="container">
+        <section class="columns">
+            <section class="column is-one-fifth">
+                <label class="is-size-3">City Search</label>
+                <input class="input" type="text" placeholder="Enter Your City">
+                <button class="button is-info">Info</button>
+                <ul class="button-ul"></ul>
+            </section>
+            <section class="column is-four-fifths">
+                <section class="current-weather"></section>
+                <section class="5-day-weather-cards"></section>
+            </section>
+        </section>
+    </section>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="./assets/js/script.js"></script> 
+<script src="./assets/js/script.js"></script>
 
 </html>
