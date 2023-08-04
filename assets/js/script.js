@@ -22,6 +22,7 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       console.log(veryNewData)
 
       const cityEl = document.getElementById("current-weather")
+      cityEl.innerHTML = ""
       
       const titleCityItem = document.createElement("h4")
       titleCityItem.setAttribute("class" , "is-size-4")
@@ -106,7 +107,7 @@ function weatherApi() {
             var liEntry = document.createElement("li")
             var button = document.createElement("button")
 
-            button.setAttribute("class", "button is-black is-normal is-fullwidth")
+            button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
             button.setAttribute( "id" , data[0].name )
             button.setAttribute( "onclick", "clickEd(this.id)" )
             button.textContent = data[0].name 
