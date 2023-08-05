@@ -111,7 +111,7 @@ function weatherApi() {
 
         button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
         button.setAttribute("id", data[0].name)
-        button.setAttribute("onclick", "clickEd(this.id)")
+        button.setAttribute("onclick", "clickedWeatherApi(this.id)")
         button.textContent = data[0].name
 
         buttonUlEL.append(liEntry)
@@ -137,42 +137,91 @@ function weatherApi() {
 
 $("#search-button").on("click", weatherApi)
 
+function clickedWeatherApi(cityName) {
+
+  var requestUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + apiKey;
+
+  fetch(requestUrl)
+    .then(function (response) {
+      return response.json();
+    }).then(function (data) {
+
+      console.log(data)
+      var itExists = isValueInLocalStorage(data[0].name)
+
+      if (!itExists) {
+        cities.push(data[0].name)
+        var cityArray = JSON.stringify(cities)
+        localStorage.setItem("cities", cityArray)
+
+        var buttonUlEL = document.querySelector(".button-ul")
+        var liEntry = document.createElement("li")
+        var button = document.createElement("button")
+
+        button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
+        button.setAttribute("id", data[0].name)
+        button.setAttribute("onclick", "clickedWeatherApi(this.id)")
+        button.textContent = data[0].name
+
+        buttonUlEL.append(liEntry)
+        liEntry.append(button)
+
+      }
+
+      var thisCountry = data[0].country
+      var thisState = data[0].state
+      var nameCity = data[0].name
+      var lat = data[0].lat
+      var lon = data[0].lon
+
+      console.log(cities)
+
+      displayWeather(lat, lon, nameCity, thisState, thisCountry)
+
+    })
+
+
+
+}
+
 function buttonCreate() {
+  if (localStorage.length > 0) {
+    var cityArray = JSON.parse(localStorage.getItem("cities"))
 
-  var cityArray = JSON.parse(localStorage.getItem("cities"))
+    var buttonUlEL = document.querySelector(".button-ul")
 
-  var buttonUlEL = document.querySelector(".button-ul")
+    console.log(cityArray)
 
-  console.log(cityArray)
+    for (var i = 0; i < cityArray.length; i++) {
 
-  for (var i = 0; i < cityArray.length; i++) {
+      var liEntry = document.createElement("li")
+      var button = document.createElement("button")
 
-    var liEntry = document.createElement("li")
-    var button = document.createElement("button")
+      button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
+      button.setAttribute("id", cityArray[i])
+      button.setAttribute("onclick", "clickedWeatherApi(this.id)")
+      button.textContent = cityArray[i]
 
-    button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
-    button.setAttribute("id", cityArray[i])
-    button.setAttribute("onclick", "weatherApi(this.id)")
-    button.textContent = cityArray[i]
+      buttonUlEL.append(liEntry)
+      liEntry.append(button)
 
-    buttonUlEL.append(liEntry)
-    liEntry.append(button)
-
+    }
   }
 }
 
 buttonCreate()
 
 function isValueInLocalStorage(value) {
+  if (localStorage.length > 0) {
+    var cityArray = JSON.parse(localStorage.getItem("cities"))
 
-  var cityArray = JSON.parse(localStorage.getItem("cities"))
+    for (let i = 0; i < cityArray.length; i++) {
 
-  for (let i = 0; i < cityArray.length; i++) {
-
-    const storedValue = cityArray[i];
-    if (storedValue.toLowerCase() === value.toLowerCase()) {
-      return true;
+      const storedValue = cityArray[i];
+      if (storedValue.toLowerCase() === value.toLowerCase()) {
+        return true;
+      }
     }
+    return false;
   }
-  return false;
 }
