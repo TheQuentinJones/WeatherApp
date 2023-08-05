@@ -147,26 +147,6 @@ function clickedWeatherApi(cityName) {
     }).then(function (data) {
 
       console.log(data)
-      var itExists = isValueInLocalStorage(data[0].name)
-
-      if (!itExists) {
-        cities.push(data[0].name)
-        var cityArray = JSON.stringify(cities)
-        localStorage.setItem("cities", cityArray)
-
-        var buttonUlEL = document.querySelector(".button-ul")
-        var liEntry = document.createElement("li")
-        var button = document.createElement("button")
-
-        button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
-        button.setAttribute("id", data[0].name)
-        button.setAttribute("onclick", "clickedWeatherApi(this.id)")
-        button.textContent = data[0].name
-
-        buttonUlEL.append(liEntry)
-        liEntry.append(button)
-
-      }
 
       var thisCountry = data[0].country
       var thisState = data[0].state
