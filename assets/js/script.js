@@ -1,7 +1,7 @@
 var apiKey = "cea924180544dde5b612be105dafb515";
 var searchButton = document.getElementById("search-button")
 var inputEl = document.getElementById("city-search")
-var cities = [];
+
 
 
 function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
@@ -101,9 +101,22 @@ function weatherApi() {
       var itExists = isValueInLocalStorage(data[0].name)
 
       if (!itExists) {
-        cities.push(data[0].name)
-        var cityArray = JSON.stringify(cities)
-        localStorage.setItem("cities", cityArray)
+
+        if (localStorage.length <= 0) {
+
+          var cities = []
+          cities.push(data[0].name)
+          var cityArray = JSON.stringify(cities)
+          localStorage.setItem("cities", cityArray)
+
+        } else {
+
+          var cities = JSON.parse(localStorage.getItem("cities"))
+          cities.push(data[0].name)
+          var cityArray = JSON.stringify(cities)
+          localStorage.setItem("cities", cityArray)
+
+        }
 
         var buttonUlEL = document.querySelector(".button-ul")
         var liEntry = document.createElement("li")
@@ -154,7 +167,7 @@ function clickedWeatherApi(cityName) {
       var lat = data[0].lat
       var lon = data[0].lon
 
-      console.log(cities)
+      console.log(JSON.parse(localStorage.getItem("cities")))
 
       displayWeather(lat, lon, nameCity, thisState, thisCountry)
 
