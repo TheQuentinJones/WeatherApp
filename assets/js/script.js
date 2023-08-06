@@ -121,14 +121,19 @@ function weatherApi() {
         var buttonUlEL = document.querySelector(".button-ul")
         var liEntry = document.createElement("li")
         var button = document.createElement("button")
+        // var deleteButton = document.createElement("button")
 
-        button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
+        button.setAttribute("class", "button is-black is-normal mt-1 is-fullwidth")
         button.setAttribute("id", data[0].name)
         button.setAttribute("onclick", "clickedWeatherApi(this.id)")
         button.textContent = data[0].name
 
+        // deleteButton.setAttribute("class" , "button is-small mt-1 ml-1 is-danger")
+        // deleteButton.textContent = "X"
+
         buttonUlEL.append(liEntry)
         liEntry.append(button)
+        // liEntry.append(deleteButton)
 
       }
 
