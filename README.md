@@ -1,6 +1,6 @@
 # WeatherApp
 
-  ![GitHub](https://img.shields.io/github/license/TheQuentinJones/WeatherApp)
+![GitHub](https://img.shields.io/github/license/TheQuentinJones/WeatherApp)
 
   ## Description
           
