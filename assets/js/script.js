@@ -1,7 +1,7 @@
 var apiKey = "cea924180544dde5b612be105dafb515";
 var searchButton = document.getElementById("search-button")
 var inputEl = document.getElementById("city-search")
-var cities = [];
+
 
 
 function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
@@ -33,10 +33,10 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
 
       titleCityItem.textContent = nameCity + ", " + thisState + ", " + thisCountry + " (" + dayjs.unix(veryNewData.current.dt).format("MM/DD/YYYY") + ")"
 
-      tempItem.textContent = "Temp: " + veryNewData.current.temp + " F"
-      windItem.textContent = "Wind Speed: " + veryNewData.current.wind_speed + " MPH"
+      tempItem.textContent = "Current Temp: " + veryNewData.current.temp + " F"
+      windItem.textContent = "Current Wind Speed: " + veryNewData.current.wind_speed + " MPH"
       iconItem.setAttribute("src", "https://openweathermap.org/img/wn/" + veryNewData.current.weather[0].icon + "@2x.png")
-      feelsLike.textContent = "Feels Like: " + veryNewData.current.feels_like + " F"
+      feelsLike.textContent = "Currently Feels Like: " + veryNewData.current.feels_like + " F"
 
       cityEl.append(titleCityItem)
       cityEl.append(tempItem)
@@ -49,7 +49,7 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       cardsEl.innerHTML = ""
 
 
-      for (var i = 0; i < 7; i++) {
+      for (var i = 0; i < 5 ; i++) {
 
         var cardEl = document.createElement("div")
         cardEl.setAttribute("class", "card p-4 mt-2")
@@ -101,21 +101,39 @@ function weatherApi() {
       var itExists = isValueInLocalStorage(data[0].name)
 
       if (!itExists) {
-        cities.push(data[0].name)
-        var cityArray = JSON.stringify(cities)
-        localStorage.setItem("cities", cityArray)
+
+        if (localStorage.length <= 0) {
+
+          var cities = []
+          cities.push(data[0].name)
+          var cityArray = JSON.stringify(cities)
+          localStorage.setItem("cities", cityArray)
+
+        } else {
+
+          var cities = JSON.parse(localStorage.getItem("cities"))
+          cities.push(data[0].name)
+          var cityArray = JSON.stringify(cities)
+          localStorage.setItem("cities", cityArray)
+
+        }
 
         var buttonUlEL = document.querySelector(".button-ul")
         var liEntry = document.createElement("li")
         var button = document.createElement("button")
+        // var deleteButton = document.createElement("button")
 
-        button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
+        button.setAttribute("class", "button is-black is-normal mt-1 is-fullwidth")
         button.setAttribute("id", data[0].name)
         button.setAttribute("onclick", "clickedWeatherApi(this.id)")
         button.textContent = data[0].name
 
+        // deleteButton.setAttribute("class" , "button is-small mt-1 ml-1 is-danger")
+        // deleteButton.textContent = "X"
+
         buttonUlEL.append(liEntry)
         liEntry.append(button)
+        // liEntry.append(deleteButton)
 
       }
 
@@ -154,7 +172,7 @@ function clickedWeatherApi(cityName) {
       var lat = data[0].lat
       var lon = data[0].lon
 
-      console.log(cities)
+      console.log(JSON.parse(localStorage.getItem("cities")))
 
       displayWeather(lat, lon, nameCity, thisState, thisCountry)
 
