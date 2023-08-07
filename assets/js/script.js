@@ -33,10 +33,10 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
 
       titleCityItem.textContent = nameCity + ", " + thisState + ", " + thisCountry + " (" + dayjs.unix(veryNewData.current.dt).format("MM/DD/YYYY") + ")"
 
-      tempItem.textContent = "Temp: " + veryNewData.current.temp + " F"
-      windItem.textContent = "Wind Speed: " + veryNewData.current.wind_speed + " MPH"
+      tempItem.textContent = "Current Temp: " + veryNewData.current.temp + " F"
+      windItem.textContent = "Current Wind Speed: " + veryNewData.current.wind_speed + " MPH"
       iconItem.setAttribute("src", "https://openweathermap.org/img/wn/" + veryNewData.current.weather[0].icon + "@2x.png")
-      feelsLike.textContent = "Feels Like: " + veryNewData.current.feels_like + " F"
+      feelsLike.textContent = "Currently Feels Like: " + veryNewData.current.feels_like + " F"
 
       cityEl.append(titleCityItem)
       cityEl.append(tempItem)
@@ -49,7 +49,7 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       cardsEl.innerHTML = ""
 
 
-      for (var i = 0; i < 7; i++) {
+      for (var i = 0; i < 5 ; i++) {
 
         var cardEl = document.createElement("div")
         cardEl.setAttribute("class", "card p-4 mt-2")
