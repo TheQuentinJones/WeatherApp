@@ -49,7 +49,7 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       cardsEl.innerHTML = ""
 
 
-      for (var i = 0; i < 5 ; i++) {
+      for (var i = 1; i <= 5 ; i++) {
 
         var cardEl = document.createElement("div")
         cardEl.setAttribute("class", "card p-4 mt-2")
