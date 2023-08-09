@@ -45,14 +45,14 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       cityEl.append(feelsLike)
 
       var cardsEl = document.getElementById("weather-cards")
-      cardsEl.setAttribute("class", "is-flex is-flex-direction-row is-flex-wrap-wrap is-justify-content-space-between mt-6")
+      cardsEl.setAttribute("class", "is-flex is-flex-direction-row is-flex-wrap-wrap mt-6")
       cardsEl.innerHTML = ""
 
 
       for (var i = 1; i <= 5 ; i++) {
 
         var cardEl = document.createElement("div")
-        cardEl.setAttribute("class", "card p-4 mt-2")
+        cardEl.setAttribute("class", "card p-4 mt-2 mr-4")
         var cardTitleEl = document.createElement("p")
         var cardPtag = document.createElement("p")
         var cardPtag2 = document.createElement("p")
