@@ -129,6 +129,8 @@ function weatherApi() {
         button.textContent = data[0].name
 
         // deleteButton.setAttribute("class" , "button is-small mt-1 ml-1 is-danger")
+        // deleteButton.setAttribute("id", data[0].name)
+        // deleteButton.setAttribute("onClick", "removeCity(this.id)")
         // deleteButton.textContent = "X"
 
         buttonUlEL.append(liEntry)
@@ -223,3 +225,20 @@ function isValueInLocalStorage(value) {
     return false;
   }
 }
+
+removeCity = (city) => {
+
+  const cityArray = JSON.parse(localStorage.getItem("cities"))
+
+  cityArray.forEach( cityName => console.log(cityName))
+
+  newCityArray = cityArray.filter( cityName => cityName !== city )
+
+  console.log(newCityArray)
+  
+  localStorage.setItem("cities" , JSON.stringify(newCityArray))
+
+  location.reload()
+
+}
+
