@@ -123,7 +123,7 @@ function weatherApi() {
         var button = document.createElement("button")
         // var deleteButton = document.createElement("button")
 
-        button.setAttribute("class", "button is-black is-normal mt-1")
+        button.setAttribute("class", "button is-black is-normal mt-1 is-fullwidth")
         button.setAttribute("id", data[0].name)
         button.setAttribute("onclick", "clickedWeatherApi(this.id)")
         button.textContent = data[0].name
