@@ -184,6 +184,8 @@ function clickedWeatherApi(cityName) {
 
 }
 
+//  function to create buttons on page refresh
+
 function buttonCreate() {
   if (localStorage.length > 0) {
     var cityArray = JSON.parse(localStorage.getItem("cities"))
@@ -211,6 +213,8 @@ function buttonCreate() {
 
 buttonCreate()
 
+// function to check if a city is already in localStorage
+
 function isValueInLocalStorage(value) {
   if (localStorage.length > 0) {
     var cityArray = JSON.parse(localStorage.getItem("cities"))
@@ -225,6 +229,8 @@ function isValueInLocalStorage(value) {
     return false;
   }
 }
+
+// function to remove the city button
 
 removeCity = (city) => {
 
