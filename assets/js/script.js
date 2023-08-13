@@ -25,7 +25,7 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       cityEl.innerHTML = ""
 
       const titleCityItem = document.createElement("h4")
-      titleCityItem.setAttribute("class", "is-size-4")
+      titleCityItem.setAttribute("class", "is-size-3")
       const tempItem = document.createElement("p")
       const windItem = document.createElement("p")
       const iconItem = document.createElement("img")
