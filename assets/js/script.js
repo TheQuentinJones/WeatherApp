@@ -75,11 +75,7 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
         cardEl.append(cardPtag2)
 
       }
-
-
-
       inputEl.value = ""
-
     })
 
 
