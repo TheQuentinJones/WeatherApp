@@ -49,7 +49,7 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       cardsEl.innerHTML = ""
 
 
-      for (var i = 1; i <= 5 ; i++) {
+      for (var i = 1; i <= 5; i++) {
 
         var cardEl = document.createElement("div")
         cardEl.setAttribute("class", "card p-4 mt-2 mr-4")
@@ -77,7 +77,6 @@ function displayWeather(lat, lon, nameCity, thisState, thisCountry) {
       }
       inputEl.value = ""
     })
-
 
 }
 
@@ -232,13 +231,13 @@ removeCity = (city) => {
 
   const cityArray = JSON.parse(localStorage.getItem("cities"))
 
-  cityArray.forEach( cityName => console.log(cityName))
+  cityArray.forEach(cityName => console.log(cityName))
 
-  newCityArray = cityArray.filter( cityName => cityName !== city )
+  newCityArray = cityArray.filter(cityName => cityName !== city)
 
   console.log(newCityArray)
-  
-  localStorage.setItem("cities" , JSON.stringify(newCityArray))
+
+  localStorage.setItem("cities", JSON.stringify(newCityArray))
 
   location.reload()
 
