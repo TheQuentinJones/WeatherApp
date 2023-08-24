@@ -4,7 +4,7 @@
 
   ## Description
           
-  This is a web application that can be used to look up the 5 day forecast for a specific city. This application only requires that you know what city you want to look up and you can enter it in the search bar and click on the search button. The current weather conditions as well as that of the next 5 days will appear on your screen. It will also save your previous searches so that you can quickly search for those cities with the click of a button!
+  This is a web application that can be used to look up the 5 day forecast for a specific city. This application only requires that you know what city you want to look up and you can enter it in the search bar and click on the search button. The current weather conditions as well as that of the next 5 days will appear on your screen. It will also save your previous searches so that you can quickly search for those cities with the click of a button! In order to make all of this work, I have incorporated the open weather API into the application to supply the data necessary. 
 
   ## Built With:
 
