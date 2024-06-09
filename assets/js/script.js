@@ -164,15 +164,11 @@ const clickedWeatherApi = (cityName) => {
       return response.json();
     }).then(function (data) {
 
-      console.log(data)
-
       let thisCountry = data[0].country
       let thisState = data[0].state
       let nameCity = data[0].name
       let lat = data[0].lat
       let lon = data[0].lon
-
-      console.log(JSON.parse(localStorage.getItem("cities")))
 
       displayWeather(lat, lon, nameCity, thisState, thisCountry)
 
@@ -186,8 +182,6 @@ const buttonCreate = () => {
     let cityArray = JSON.parse(localStorage.getItem("cities"))
 
     let buttonUlEL = document.querySelector(".button-ul")
-
-    console.log(cityArray)
 
     for (let i = 0; i < cityArray.length; i++) {
 
