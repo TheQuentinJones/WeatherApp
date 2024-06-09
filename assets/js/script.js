@@ -85,9 +85,9 @@ const fiveDayCardCreate = (veryNewData) => {
 
 const weatherApi = () => {
 
-  var cityName = inputEl.value
+  let cityName = inputEl.value
 
-  var requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
+  let requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
 
 
   fetch(requestUrl)
@@ -95,50 +95,57 @@ const weatherApi = () => {
       return response.json();
     }).then(function (data) {
 
-      console.log(data)
-      let itExists = isValueInLocalStorage(data[0].name)
+      addNewButtonToList(data)
 
-      if (!itExists) {
-
-        if (localStorage.getItem("cities") == null) {
-
-          let cities = []
-          cities.push(data[0].name)
-          let cityArray = JSON.stringify(cities)
-          localStorage.setItem("cities", cityArray)
-
-        } else {
-
-          let cities = JSON.parse(localStorage.getItem("cities"))
-          cities.push(data[0].name)
-          let cityArray = JSON.stringify(cities)
-          localStorage.setItem("cities", cityArray)
-
-        }
-
-        var buttonUlEL = document.querySelector(".button-ul")
-        var liEntry = document.createElement("li")
-        var button = document.createElement("button")
-
-        button.setAttribute("class", "button is-black is-normal mt-1 is-fullwidth")
-        button.setAttribute("id", data[0].name)
-        button.setAttribute("onclick", "clickedWeatherApi(this.id)")
-        button.textContent = data[0].name
-
-        buttonUlEL.append(liEntry)
-        liEntry.append(button)
-
-      }
-
-      var thisCountry = data[0].country
-      var thisState = data[0].state
-      var nameCity = data[0].name
-      var lat = data[0].lat
-      var lon = data[0].lon
+      let thisCountry = data[0].country
+      let thisState = data[0].state
+      let nameCity = data[0].name
+      let lat = data[0].lat
+      let lon = data[0].lon
 
       displayWeather(lat, lon, nameCity, thisState, thisCountry)
 
     })
+
+}
+
+// add (or not) new city button
+
+const addNewButtonToList = (data) => {
+
+  let itExists = isValueInLocalStorage(data[0].name)
+
+  if (!itExists) {
+
+    if (localStorage.getItem("cities") == null) {
+
+      let cities = []
+      cities.push(data[0].name)
+      let cityArray = JSON.stringify(cities)
+      localStorage.setItem("cities", cityArray)
+
+    } else {
+
+      let cities = JSON.parse(localStorage.getItem("cities"))
+      cities.push(data[0].name)
+      let cityArray = JSON.stringify(cities)
+      localStorage.setItem("cities", cityArray)
+
+    }
+
+    let buttonUlEL = document.querySelector(".button-ul")
+    let liEntry = document.createElement("li")
+    let button = document.createElement("button")
+
+    button.setAttribute("class", "button is-black is-normal mt-1 is-fullwidth")
+    button.setAttribute("id", data[0].name)
+    button.setAttribute("onclick", "clickedWeatherApi(this.id)")
+    button.textContent = data[0].name
+
+    buttonUlEL.append(liEntry)
+    liEntry.append(button)
+
+  }
 
 }
 
@@ -150,7 +157,7 @@ $("#search-button").on("click", weatherApi)
 
 const clickedWeatherApi = (cityName) => {
 
-  var requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
+  let requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
 
   fetch(requestUrl)
     .then(function (response) {
