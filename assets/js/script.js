@@ -141,9 +141,6 @@ const addNewButtonToList = ({name}) => {
 
 }
 
-// button to call API when the search has input and button is clicked
-
-$("#search-button").on("click", weatherApi)
 
 //  function to create buttons on page refresh
 
@@ -194,7 +191,6 @@ const removeCity = (city) => {
 
 const setTheme = () => {
 
-
   if (siteTheme == "dark") {   
     htmlEl.setAttribute("data-theme", "light")
     siteTheme = "light"
@@ -206,6 +202,10 @@ const setTheme = () => {
 }
 
 themeChangeEl.addEventListener("click", setTheme)
+
+// button to call API when the search has input and button is clicked
+
+searchButton.addEventListener("click", weatherApi)
 
 
 
