@@ -1,12 +1,44 @@
 const apiKey = "cea924180544dde5b612be105dafb515";
 const searchButton = document.getElementById("search-button")
 const inputEl = document.getElementById("city-search")
+const themeChangeEl = document.getElementById("theme-change")
+const htmlEl = document.getElementById("html-element")
+let siteTheme = htmlEl.getAttribute("data-theme")
+
+// first half of API to get lat and lon for second half
+
+const weatherApi = (buttonId) => {
+
+  let inputValue = inputEl.value
+
+  let cityName = inputValue || buttonId
+
+  let requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
+
+
+  fetch(requestUrl)
+    .then(function (response) {
+      return response.json();
+    }).then(function (data) {      
+
+      let country = data[0].country
+      let state = data[0].state
+      let city = data[0].name
+      let lat = data[0].lat
+      let lon = data[0].lon
+
+      displayWeather(lat, lon, city, state, country)
+      addNewButtonToList(data[0])
+
+    })
+
+}
 
 // second half of API call to get weather data
 
-const displayWeather = (lat, lon, nameCity, thisState, thisCountry) => {
+const displayWeather = (lat, lon, city, state, country) => {
 
-  // console.log(lat, lon, nameCity, thisState, thisCountry)
+  // console.log(lat, lon, city, state, country)
 
   const secondUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
   fetch(secondUrl)
@@ -14,11 +46,11 @@ const displayWeather = (lat, lon, nameCity, thisState, thisCountry) => {
 
       return response.json();
 
-    }).then(function (veryNewData) {
+    }).then(function (data) {
 
-      currentDayCardCreate(veryNewData, nameCity, thisState, thisCountry)
+      currentDayCardCreate(data, city, state, country)
 
-      fiveDayCardCreate(veryNewData)
+      fiveDayCardCreate(data)
 
       inputEl.value = ``
     })
@@ -62,6 +94,7 @@ const fiveDayCardCreate = (veryNewData) => {
 
     let cardEl = document.createElement("div")
     cardEl.setAttribute("class", "card p-4 mt-2 mr-4")
+    cardEl.setAttribute("data-theme", siteTheme)
     let cardTitleEl = document.createElement("p")
     let cardPtag = document.createElement("p")
     let cardPtag2 = document.createElement("p")
@@ -81,66 +114,25 @@ const fiveDayCardCreate = (veryNewData) => {
 
 }
 
-// first half of API to get lat and lon for second half
-
-const weatherApi = () => {
-
-  let cityName = inputEl.value
-
-  let requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
-
-
-  fetch(requestUrl)
-    .then(function (response) {
-      return response.json();
-    }).then(function (data) {
-
-      addNewButtonToList(data)
-
-      let thisCountry = data[0].country
-      let thisState = data[0].state
-      let nameCity = data[0].name
-      let lat = data[0].lat
-      let lon = data[0].lon
-
-      displayWeather(lat, lon, nameCity, thisState, thisCountry)
-
-    })
-
-}
-
 // add (or not) new city button
 
-const addNewButtonToList = (data) => {
+const addNewButtonToList = ({name}) => {
 
-  let itExists = isValueInLocalStorage(data[0].name)
+  let cities = JSON.parse(localStorage.getItem("cities")) || []
 
-  if (!itExists) {
-
-    if (localStorage.getItem("cities") == null) {
-
-      let cities = []
-      cities.push(data[0].name)
-      let cityArray = JSON.stringify(cities)
-      localStorage.setItem("cities", cityArray)
-
-    } else {
-
-      let cities = JSON.parse(localStorage.getItem("cities"))
-      cities.push(data[0].name)
-      let cityArray = JSON.stringify(cities)
-      localStorage.setItem("cities", cityArray)
-
-    }
+  if (!cities.includes(name)) {
+    cities.push(name)
+    let cityArray = JSON.stringify(cities)
+    localStorage.setItem("cities", cityArray)
 
     let buttonUlEL = document.querySelector(".button-ul")
     let liEntry = document.createElement("li")
     let button = document.createElement("button")
 
     button.setAttribute("class", "button is-black is-normal mt-1 is-fullwidth")
-    button.setAttribute("id", data[0].name)
-    button.setAttribute("onclick", "clickedWeatherApi(this.id)")
-    button.textContent = data[0].name
+    button.setAttribute("id", name)
+    button.setAttribute("onclick", "weatherApi(this.id)")
+    button.textContent = name
 
     buttonUlEL.append(liEntry)
     liEntry.append(button)
@@ -152,28 +144,6 @@ const addNewButtonToList = (data) => {
 // button to call API when the search has input and button is clicked
 
 $("#search-button").on("click", weatherApi)
-
-// function to call API when city button is clicked
-
-const clickedWeatherApi = (cityName) => {
-
-  let requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
-
-  fetch(requestUrl)
-    .then(function (response) {
-      return response.json();
-    }).then(function (data) {
-
-      let thisCountry = data[0].country
-      let thisState = data[0].state
-      let nameCity = data[0].name
-      let lat = data[0].lat
-      let lon = data[0].lon
-
-      displayWeather(lat, lon, nameCity, thisState, thisCountry)
-
-    })
-}
 
 //  function to create buttons on page refresh
 
@@ -190,7 +160,7 @@ const buttonCreate = () => {
 
       button.setAttribute("class", "button is-black is-normal is-fullwidth mt-1")
       button.setAttribute("id", cityArray[i])
-      button.setAttribute("onclick", "clickedWeatherApi(this.id)")
+      button.setAttribute("onclick", "weatherApi(this.id)")
       button.textContent = cityArray[i]
 
       buttonUlEL.append(liEntry)
@@ -201,20 +171,6 @@ const buttonCreate = () => {
 }
 
 buttonCreate()
-
-// function to check if a city is already in localStorage
-
-const isValueInLocalStorage = (value) => {
-  if (localStorage.getItem("cities") != null) {
-    let cityArray = JSON.parse(localStorage.getItem("cities"))
-
-    if(cityArray.includes(value)){
-      return true;
-    }
-
-    return false;
-  }
-}
 
 // function to remove the city button
 
@@ -233,4 +189,23 @@ const removeCity = (city) => {
   location.reload()
 
 }
+
+// Theme changer
+
+const setTheme = () => {
+
+
+  if (siteTheme == "dark") {   
+    htmlEl.setAttribute("data-theme", "light")
+    siteTheme = "light"
+  } else {   
+    htmlEl.setAttribute("data-theme", "dark")
+    siteTheme = "dark"
+  }
+
+}
+
+themeChangeEl.addEventListener("click", setTheme)
+
+
 
