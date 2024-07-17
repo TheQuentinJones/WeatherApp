@@ -136,10 +136,27 @@ const addNewButtonToList = ({name}) => {
 
     buttonUlEL.append(liEntry)
     liEntry.append(button)
+    // deleteButtonCreate(name)
 
   }
 
 }
+
+// Create a delete button one time
+
+// const deleteButtonCreate = (name) => { 
+//   let deleteButtonEl = document.querySelector(".delete-button")
+//   let liEntry = document.createElement("li")
+//   let button = document.createElement("button")
+
+//   button.setAttribute("class", "button is-danger mt-1")
+//   button.setAttribute("data-delete", name)
+//   button.setAttribute("onclick", "removeCity(this.data-delete)")
+//   button.textContent = "X"
+
+//   deleteButtonEl.append(liEntry)
+//   liEntry.append(button)
+// }
 
 
 //  function to create buttons on page refresh
@@ -147,11 +164,12 @@ const addNewButtonToList = ({name}) => {
 const buttonCreate = () => {
   if (localStorage.getItem("cities") != null) {
     let cityArray = JSON.parse(localStorage.getItem("cities"))
+    // console.log(cityArray)
 
     let buttonUlEL = document.querySelector(".button-ul")
 
     for (let i = 0; i < cityArray.length; i++) {
-
+      
       let liEntry = document.createElement("li")
       let button = document.createElement("button")
 
@@ -159,6 +177,8 @@ const buttonCreate = () => {
       button.setAttribute("id", cityArray[i])
       button.setAttribute("onclick", "weatherApi(this.id)")
       button.textContent = cityArray[i]
+
+      // deleteButtonCreate(cityArray[i])
 
       buttonUlEL.append(liEntry)
       liEntry.append(button)
